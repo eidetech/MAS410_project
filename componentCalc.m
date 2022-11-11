@@ -140,8 +140,8 @@ omegam2rpm = omegam/((2*pi)/60);          %rpm
 %Required flow to reach required motor velosity with choosen motor
 %dispasement 22.9 cm^3 times volumetric displacement 
 
-Qmotor = 1/nyv * D_chosen.*omegam/(2*pi);
-Qmotor2lpm = Qmotor*1e3*60
+Qmotor =  1/nyv * D_chosen.*omegam/(2*pi);
+Qmotor2lpm = Qmotor*1e3*60;
 
 %Determine pump displacement to provide enough flow
 Dpump = (Qmotor)./omegap;                    %m^3
@@ -153,9 +153,9 @@ pl = (2*pi)*Mm/D_chosen;
 pl2bar = pl*1e-5;
 
 %preassure from HPU
-ps = 225*1e5; 
+ps = (3/2)*pl; 
 ps2bar = ps*1e-5
-pr = 210*1e5;
+pr = 70e5;
 
 %required kW
 P = m * g *0.5;
@@ -163,8 +163,8 @@ P = m * g *0.5;
 qnlmax = qmax * sqrt(ps/(ps-pl));
 qnlmax2lpm = qnlmax*60*1e3;
 
-qrmmin = 1.1*qnlmax*sqrt(pr/ps);
-qrm2lpm = qrmmin*60*1e3
+qr = 1.1*qnlmax*sqrt(pr/ps);
+qrlpm = qr*60*1e3
 
 
 
