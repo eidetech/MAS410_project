@@ -46,10 +46,10 @@ while t < endtime
     zpdotdot = (zpdot-zpdotprev)/dt; 
     
     %velosity drum
-    omegad = zpdot/rd;
+    omegad = zpdot/rd*6;
 
     %velosity motor rad/s
-    omegam = omegad*6*ig;        %rad/s
+    omegam = omegad*ig;        %rad/s
 
     %motor shaft torque
     Mm = (m*g*dd)./(2.*nsh*2*ig) * (1+(mueq * tanh(omegam/omega0)));
@@ -126,8 +126,10 @@ xlim([0.1,20])
 Mm = max(Mmplot);     
 qmax = max(qplot);
 %Displasement to generate required torque
-Dm = (2*pi.*Mm)/p;                         %m^3
+Dm = (2*pi*Mm)/p;                         %m^3
+Dmextramax = (2*pi*110)/p 
 Dm2cm3 = Dm * 1e6;                         %cm^3
+Dmextramax2cm3 = Dmextramax * 1e6;
 
 %choose displasement from Dm matrix
 D_chosen = 28.1*1e-6;                     %m^3
@@ -179,7 +181,7 @@ Admax2mm2 = Admax*1e3;
 
 
 %Kv ventil
-Qcatvalve = 200/60000;
+Qcatvalve = 150/60000;
 Pcatvalve = 70e5;
 Kvmaxvalve = Qcatvalve/sqrt(Pcatvalve);
 Admaxvalve = (Kvmaxvalve/cd)*1/(sqrt(2/875));
