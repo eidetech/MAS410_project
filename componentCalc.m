@@ -15,6 +15,9 @@ nsh = 3;
 gearrationsh = nsh.*2;
 
 
+rho = 875;
+cd = 0.7;
+
 %choosen pressuredrop over motor
 
 p = 210*1e5;
@@ -165,6 +168,23 @@ qnlmax2lpm = qnlmax*60*1e3;
 
 qr = 1.1*qnlmax*sqrt(pr/ps);
 qrlpm = qr*60*1e3
+
+%Kv breakvalve, choose a flow and a preassuredrop when valve fully open
+%from catalogue
+Qcat = 180/60000;
+Pcat = 5e5
+Kvmax = Qcat/sqrt(Pcat);
+Admax = (Kvmax/cd)*1/(sqrt(2/875));
+Admax2mm2 = Admax*1e3;
+
+
+%Kv ventil
+Qcatvalve = 200/60000;
+Pcatvalve = 70e5;
+Kvmaxvalve = Qcatvalve/sqrt(Pcatvalve);
+Admaxvalve = (Kvmaxvalve/cd)*1/(sqrt(2/875));
+Admaxvalve2mm2 = Admaxvalve*1e3;
+
 
 
 
