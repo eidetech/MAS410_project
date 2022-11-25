@@ -77,10 +77,10 @@ while t < endtime
 end
 
 % plot of Mm
-plot(timeplot,Mmplot)
-hold on
-plot(timeplot,zpdotdotplot*100)
-xlim([0.1,20])
+%plot(timeplot,Mmplot)
+%hold on
+%plot(timeplot,zpdotdotplot*100)
+%xlim([0.1,20])
 %plot of flow
 %plot(timeplot,qplot*1e3*60)
 
@@ -127,13 +127,13 @@ Mm = max(Mmplot);
 qmax = max(qplot);
 %Displasement to generate required torque
 Dm = (2*pi*Mm)/p;                         %m^3
-Dmextramax = (2*pi*110)/p 
 Dm2cm3 = Dm * 1e6;                         %cm^3
-Dmextramax2cm3 = Dmextramax * 1e6;
 
 %choose displasement from Dm matrix
 D_chosen = 28.1*1e-6;                     %m^3
 
+%safety factor
+Safety_factor = D_chosen/Dm;
 %velosity payload m/s
 zpdotmax = max(zpdotplot);                %m/s
 
@@ -145,20 +145,28 @@ omegam2rpm = omegam/((2*pi)/60);          %rpm
 %Required flow to reach required motor velosity with choosen motor
 %dispasement 22.9 cm^3 times volumetric displacement 
 
-Qmotor =  1/nyv * D_chosen.*omegam/(2*pi);
-Qmotor2lpm = Qmotor*1e3*60;
+Qmotor =  D_chosen.*omegam/(2*pi);
+Qlekasje = Qmotor*0.08;
+Qtot = Qmotor+Qlekasje;
+Qtot2lpm = Qtot*1e3*60;
+
+%Ad lekage
+
 
 %Determine pump displacement to provide enough flow
 Dpump = (Qmotor)./omegap;                    %m^3
 Dpump2cm3 = Dpump*1e6;                       %cm^3
 
 
+%preassure from HPU
+ps_hpu = 260e5;
+
+
 %Calculated pl
 pl = (2*pi)*Mm/D_chosen;
 pl2bar = pl*1e-5;
+ps = (3/2)*pl;
 
-%preassure from HPU
-ps = (3/2)*pl; 
 ps2bar = ps*1e-5
 pr = 70e5;
 
@@ -173,20 +181,36 @@ qrlpm = qr*60*1e3
 
 %Kv breakvalve, choose a flow and a preassuredrop when valve fully open
 %from catalogue
-Qcat = 180/60000;
-Pcat = 5e5
-Kvmax = Qcat/sqrt(Pcat);
-Admax = (Kvmax/cd)*1/(sqrt(2/875));
-Admax2mm2 = Admax*1e3;
+Qcatbreak = 180/60000;
+Pcatbreak = 5e5
+Kvmaxbreak = Qcatbreak/sqrt(Pcatbreak/2);
+Admaxbreak = (Kvmaxbreak/cd)*1/(sqrt(2/875));
+Admax2mm2break = Admaxbreak*1e3;
 
 
-%Kv ventil
-Qcatvalve = 150/60000;
+%Kv ventil 200 l/min
+Qcatvalve = 200/60000;
 Pcatvalve = 70e5;
-Kvmaxvalve = Qcatvalve/sqrt(Pcatvalve);
+Kvmaxvalve = (Qcatvalve)/sqrt(Pcatvalve/2);
 Admaxvalve = (Kvmaxvalve/cd)*1/(sqrt(2/875));
 Admaxvalve2mm2 = Admaxvalve*1e3;
 
+%Kv ventil check
+Kv_chek = (180/6e4) / (sqrt( (278e5-186e5) /2 ))
 
 
+%Kv ventil 100 l/min
+Qcatvalve_2 = 100/60000;
+Pcatvalve_2 = 70e5;
+Kvmaxvalve_2 = (Qcatvalve_2)/sqrt(Pcatvalve_2/2);
+Admaxvalve_2 = (Kvmaxvalve_2/cd)*1/(sqrt(2/875));
+Admaxvalve2mm2_2 = Admaxvalve_2*1e3;
+
+%egenfrequens hydromechaninc omega n
+
+k_theta = (1100e6*(28.1e-6)^2) / (pi^2*( (28.1e-6)+(30e-6) ));
+
+omegn_n = sqrt(k_theta/0.0072)
+
+ref = omegn_n*3
 
