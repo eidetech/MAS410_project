@@ -152,7 +152,8 @@ Qtot2lpm = Qtot*1e3*60;
 
 %Ad lekage
 
-
+Ad_l = (Qlekasje)/(0.7*sqrt(2/875*350*1e5));
+Ad_l_mm = Ad_l*1e6;
 %Determine pump displacement to provide enough flow
 Dpump = (Qmotor)./omegap;                    %m^3
 Dpump2cm3 = Dpump*1e6;                       %cm^3
@@ -167,7 +168,7 @@ pl = (2*pi)*Mm/D_chosen;
 pl2bar = pl*1e-5;
 ps = (3/2)*pl;
 
-ps2bar = ps*1e-5
+ps2bar = ps*1e-5;
 pr = 70e5;
 
 %required kW
@@ -177,12 +178,12 @@ qnlmax = qmax * sqrt(ps/(ps-pl));
 qnlmax2lpm = qnlmax*60*1e3;
 
 qr = 1.1*qnlmax*sqrt(pr/ps);
-qrlpm = qr*60*1e3
+qrlpm = qr*60*1e3;
 
 %Kv breakvalve, choose a flow and a preassuredrop when valve fully open
 %from catalogue
 Qcatbreak = 180/60000;
-Pcatbreak = 5e5
+Pcatbreak = 5e5;
 Kvmaxbreak = Qcatbreak/sqrt(Pcatbreak/2);
 Admaxbreak = (Kvmaxbreak/cd)*1/(sqrt(2/875));
 Admax2mm2break = Admaxbreak*1e3;
@@ -196,7 +197,7 @@ Admaxvalve = (Kvmaxvalve/cd)*1/(sqrt(2/875));
 Admaxvalve2mm2 = Admaxvalve*1e3;
 
 %Kv ventil check
-Kv_chek = (180/6e4) / (sqrt( (278e5-186e5) /2 ))
+Kv_chek = (180/6e4) / (sqrt( (278e5-186e5) /2 ));
 
 
 %Kv ventil 100 l/min
@@ -210,7 +211,42 @@ Admaxvalve2mm2_2 = Admaxvalve_2*1e3;
 
 k_theta = (1100e6*(28.1e-6)^2) / (pi^2*( (28.1e-6)+(30e-6) ));
 
-omegn_n = sqrt(k_theta/0.0072)
+omegn_n = sqrt(k_theta/0.0072);
 
-ref = omegn_n*3
+ref = omegn_n*3;
+
+% nominal power delivered by pump
+Pp_nominal = 261/60000*260*1e5*1e-3; %kW
+Pcooler_cap = 0.5*135; % cooler capacity in kW
+
+% during hoisting the HPU pressure is 260 bar and the flow from 
+% the pump is 175 l/min, values retrieved from simulink model
+
+Pp_hoist = 175/60000*260*1e5*1e-3; %kW
+
+% during lowering the HPU pressure is 100 bar and the flow from 
+% the pump is 155 l/min, values retrieved from simulink model
+
+Pp_lowering = 155/60000*100*1e5*1e-3; %kW
+
+% during hoisting the pressure drop across the motor is 186 bar
+% approximately read from model, also fits the calculations
+% flow through motor is always 165 l/min
+
+Pm_hoist = 165/60000*186*1e5*1e-3;
+
+% during lowering the pressure drop across the motor is 135 bar
+% approximately read from model, also fits the calculations
+% will be lower than when hoisting because moment on motor is smaller
+
+Pm_lowering = 165/60000*135*1e5*1e-3;
+
+% total power in system when hoisting
+
+P_tot_hoist = Pp_hoist-Pm_hoist-Pcooler_cap;
+
+% total power in system when lowering
+
+P_tot_lowering = Pp_lowering+Pm_lowering-Pcooler_cap;
+
 
