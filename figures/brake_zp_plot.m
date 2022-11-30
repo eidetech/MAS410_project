@@ -1,6 +1,6 @@
 clc; close all;
 
-filename = 'control_signal';
+filename = 'brake_zp_plot';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if(LW_thin)
@@ -16,18 +16,17 @@ fig.Units = 'centimeters';
 fig.Position = [LLC_frame W_frame/2 H_frame]; %Specifying the width and height of the frame
 hold on
 
-plot(controlsignal{1}.Values, 'LineWidth', LW)
+plot(brake_zp{1}.Values, 'Color', '#0072bd', 'LineWidth', LW)
 hold on
-plot(controlsignal{2}.Values, 'LineWidth', LW)
-plot(controlsignal{3}.Values, 'LineWidth', LW)
+plot(brake_zp{2}.Values*5, 'Color', '#7e2f8e', 'LineWidth', LW)
 
-legend('$u_{ff}$', '$u_{pid}$', '$u_{sum}$', 'Interpreter', 'latex')
+legend('$zp_{ref}$', 'BV control', 'Interpreter', 'latex')
 grid on;
 xlabel('$t$ [s]', 'interpreter', 'latex')
-ylabel('[-]', 'interpreter', 'latex')
+ylabel('[m]', 'interpreter', 'latex')
 title('')
 box on;
-ylim([-1 1.2])
+ylim([-1 1.5])
 set(gca, 'FontName', font)
 filename1 = append(filename, '.eps');
 saveas(gcf,[output_path,filename1], 'epsc') % gcf = get current figure

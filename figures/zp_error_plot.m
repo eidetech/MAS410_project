@@ -16,9 +16,9 @@ fig.Units = 'centimeters';
 fig.Position = [LLC_frame W_frame/2 H_frame]; %Specifying the width and height of the frame
 hold on
 
-plot(z_error_w_ff{2}.Values, 'Color', '#ff6929', 'LineWidth', LW)
+plot(z_error_w_ff{1}.Values, 'Color', '#ff6929', 'LineWidth', LW)
 hold on
-plot(z_error_wo_ff{2}.Values, 'Color', '#7e2f8e', 'LineWidth', LW)
+plot(z_error_wo_ff{1}.Values, 'Color', '#7e2f8e', 'LineWidth', LW)
 
 legend('$zp_{error}$ with ff', '$zp_{error}$ without ff', 'Interpreter', 'latex')
 grid on;
