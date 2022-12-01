@@ -1,4 +1,4 @@
-clc; clear; close all;
+clc; close all;
 
 g = 9.81;                   %gravity
 zw = 0.8;                   %wave amplitude
@@ -84,42 +84,52 @@ end
 %plot of flow
 %plot(timeplot,qplot*1e3*60)
 
+filename = 'platform_plot';
 
+fig = figure;          % Handle for the figure
+LLC_frame = [200,10];      % Position of lower left corner of the frame on the screen [cm]
+fig.Units = 'centimeters';
+fig.Position = [LLC_frame W_frame/2 H_frame]; %Specifying the width and height of the frame
+hold on
+%plot movement, velosity and acceleration
+plot(timeplot,zpplot, 'LineWidth', 2)
+xlabel("Time [s]", 'Interpreter', 'latex')
+ylabel("$z_p$ [m]", 'Interpreter', 'latex')
+%set(gca,'TickLabelInterpreter','latex')
+grid on
+ylim([-1,1])
+%saveas(fig,filename, 'epsc')
+hold on
 
-% %plot movement, velosity and acceleration
-% fig = figure;
-% plot(timeplot,zpplot, 'color',[0.6 0.8 1], 'LineWidth', 2)
-% filename = "platform_plot.eps"
-% xlabel("Time [s]", 'Interpreter', 'latex')
-% ylabel("$z_p$ [m]", 'Interpreter', 'latex')
-% set(gca,'TickLabelInterpreter','latex')
-% grid on
-% ylim([-1,1])
-% %saveas(fig,filename, 'epsc')
-% hold on
-% 
-% %fig2 = figure;
-% plot(timeplot,zpdotplot, 'color',[1 0.6 0], 'LineWidth', 2)
-% %xlabel("Time [s]", 'Interpreter', 'latex')
-% ylabel("$v_p(t)$ [m/s]", 'Interpreter', 'latex')
-% set(gca,'TickLabelInterpreter','latex')
-% grid on
-% ylim([-1,1])
-% xlim([0.1,20])
-% %filename = "vel_platform.eps"
-% %saveas(fig2,filename, 'epsc')
-% 
-% %fig3 = figure;
-% plot(timeplot,zpdotdotplot, 'color',[0.4 0.9 0.1], 'LineWidth', 2)
-% xlabel("Time [s]", 'Interpreter', 'latex')
-% ylabel("$y(t)/ v(t)/a(t)$", 'Interpreter', 'latex')
-% set(gca,'TickLabelInterpreter','latex')
-% grid on
-% legend("$y_p(t) [m]$", "$v_p(t) [m/s]$", "$a_p(t) [m/s^2]$", 'Interpreter', 'latex')
-% ylim([-1,1])
-% xlim([0.1,20])
+%fig2 = figure;
+plot(timeplot,zpdotplot, 'LineWidth', 2)
+%xlabel("Time [s]", 'Interpreter', 'latex')
+ylabel("$v_p(t)$ [m/s]", 'Interpreter', 'latex')
+%set(gca,'TickLabelInterpreter','latex')
+grid on
+ylim([-1,1])
+xlim([0.1,20])
+%filename = "vel_platform.eps"
+%saveas(fig2,filename, 'epsc')
+
+%fig3 = figure;
+plot(timeplot,zpdotdotplot, 'LineWidth', 2)
+xlabel("Time [s]", 'Interpreter', 'latex')
+ylabel("$y(t)/ v(t)/a(t)$", 'Interpreter', 'latex')
+%set(gca,'TickLabelInterpreter','latex')
+grid on
+legend("$y_p(t) [m]$", "$v_p(t) [m/s]$", "$a_p(t) [m/s^2]$", 'Interpreter', 'latex')
+ylim([-1,1])
+xlim([0.1,20])
 % filename = "accel_platform.eps"
 % saveas(fig,filename, 'epsc');
+
+title('')
+box on;
+set(gca, 'FontName', font)
+filename1 = append(filename, '.eps');
+saveas(gcf,[output_path,filename1], 'epsc') % gcf = get current figure
+% close all
 
 
 % Required motor moment

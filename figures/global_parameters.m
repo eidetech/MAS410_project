@@ -15,7 +15,7 @@ output_path = ''
 % H & W for the figure
 W_frame = 17
 % W_frame = 36;           % Final width of the frame [cm] of the plot in your document
-% H_frame = 7;            % Final height of the frame [cm] of the plot in your document
+% H_frame = 10;            % Final height of the frame [cm] of the plot in your document
 H_frame = 5;
 % Number of rows and columns for the figure (for subplots)
 rows = 1;
